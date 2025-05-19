@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 from openai import OpenAI
 from typing import List
@@ -10,7 +11,11 @@ from app.utils.prompts import MEMORY_CATEGORIZATION_PROMPT
 
 load_dotenv()
 
-openai_client = OpenAI()
+# 腾讯混元模型配置
+openai_client = OpenAI(
+    api_key=os.getenv("TENCENT_HUNYUAN_API_KEY"),
+    base_url="https://hunyuan.tencentcloudapi.com"
+)
 
 
 class MemoryCategories(BaseModel):
