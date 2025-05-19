@@ -23,11 +23,19 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Setup Environment Files
+        run: make -C openmemory env  # 确保 .env 文件正确复制
+
+      - name: Verify .env File Exists
+        run: |
+          ls -la openmemory/api/
+          cat openmemory/api/.env
+
       - name: Run Makefile Build (Docker Compose)
         run: make -C openmemory build  # 使用 make 构建
 
       - name: Start Containers
-        run: make -C openmemory up  # 启动 Docker Compose
+        run: make -C openmemory up  # 运行 docker compose up
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
