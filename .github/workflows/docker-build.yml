@@ -51,9 +51,9 @@ jobs:
 
       - name: Push Separate API & UI Images
         run: |
-          docker push mem0ai/openmemory-mcp:latest
-          docker push mem0ai/openmemory-ui:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/openmemory-mcp:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/openmemory-ui:latest
 
       - name: Push Combined OpenMemory Image
-        run: docker push mem0ai/openmemory:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/openmemory:latest
 
