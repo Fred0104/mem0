@@ -45,10 +45,6 @@ jobs:
         run: make build  # 构建 MCP 服务器和 UI
         
 
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./openmemory
-          file: ./openmemory/Dockerfile
-          push: true
-          tags: mem0ai/openmemory:latest
+      - name: Push Docker Image to Docker Hub
+        run: docker push mem0ai/openmemory:latest
+
