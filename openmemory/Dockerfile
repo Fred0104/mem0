@@ -1,6 +1,7 @@
 # 使用已构建的 API 和 UI 镜像
-FROM mem0ai/openmemory-mcp:latest AS backend
-FROM mem0ai/openmemory-ui:latest AS frontend
+FROM openmemory-mcp AS backend
+FROM openmemory-ui AS frontend
+
 
 # 使用 Nginx 作为统一入口
 FROM nginx:alpine
