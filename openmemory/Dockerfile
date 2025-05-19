@@ -1,6 +1,7 @@
+ARG BUILDER_MODE=local
 # 使用已构建的 API 和 UI 镜像
-FROM openmemory-mcp AS backend
-FROM openmemory-ui AS frontend
+FROM openmemory-mcp:latest AS backend
+FROM openmemory-ui:latest AS frontend
 
 
 # 使用 Nginx 作为统一入口
