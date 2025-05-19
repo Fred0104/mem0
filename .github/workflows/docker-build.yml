@@ -42,7 +42,10 @@ jobs:
 
       - name: Build API & UI Docker Images
         working-directory: openmemory
-        run: make build  # 构建 MCP 服务器和 UI
+        run: |
+          make build  # 构建 MCP 服务器和 UI
+          docker tag openmemory-ui yourusername/openmemory-ui:latest
+          docker tag openmemory-mcp yourusername/openmemory-mcp:latest
         
 
       - name: Build Combined OpenMemory Image
