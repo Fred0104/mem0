@@ -14,6 +14,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Debug: Check Repository Files
+        run: ls -la openmemory/
+
       - name: Set up Python & Poetry
         run: |
           sudo apt update
@@ -29,23 +32,26 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Setup Environment Files
+        working-directory: openmemory
         run: make env  # 复制 .env.example 到 .env
 
       - name: Verify .env File Exists
         run: |
           ls -la openmemory/api/
-          cat openmemory/api/.env
+          cat openmemory/api/.env || echo "⚠️ .env 文件未正确创建！"
 
       - name: Run Makefile Build
+        working-directory: openmemory
         run: make build  # 构建 MCP 服务器和 UI
 
       - name: Start Containers
+        working-directory: openmemory
         run: make up  # 运行 MCP 服务器和 UI
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./openmemory
           file: ./openmemory/Dockerfile
           push: true
           tags: mem0ai/openmemory:latest
