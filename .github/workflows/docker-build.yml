@@ -44,14 +44,16 @@ jobs:
         working-directory: openmemory
         run: |
           make build  # 构建 MCP 服务器和 UI
-          docker tag openmemory-ui yourusername/openmemory-ui:latest
-          docker tag openmemory-mcp yourusername/openmemory-mcp:latest
         
 
       - name: Build Combined OpenMemory Image
         working-directory: openmemory
         run: docker build --no-cache -t openmemory:latest -f Dockerfile .
-
+      - name: Tag Images for Push
+        run: |
+          docker tag openmemory-mcp ${{ secrets.DOCKER_USERNAME }}/openmemory-mcp:latest
+          docker tag openmemory-ui ${{ secrets.DOCKER_USERNAME }}/openmemory-ui:latest
+          docker tag openmemory:latest ${{ secrets.DOCKER_USERNAME }}/openmemory:latest
       - name: Push Separate API & UI Images
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/openmemory-mcp:latest
