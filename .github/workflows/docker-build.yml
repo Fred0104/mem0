@@ -1,11 +1,11 @@
-name: Auto Build and Push OpenMemory Docker Image
+name: Auto Build & Push OpenMemory Docker Image
 
 on:
   push:
     branches:
-      - main  # 监听 main 分支的更新
+      - main
   schedule:
-    - cron: '0 3 * * *'  # 每天 UTC 时间 3:00 自动运行
+    - cron: '0 3 * * *'
 
 jobs:
   build:
@@ -23,10 +23,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Run Makefile Build (Docker Compose)
+        run: make -C openmemory build  # 使用 make 构建
+
+      - name: Start Containers
+        run: make -C openmemory up  # 启动 Docker Compose
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
         with:
-          context: ./openmemory  # 指定子目录
-          file: ./openmemory/Dockerfile  # 确保使用正确的 Dockerfile
+          context: ./openmemory
+          file: ./openmemory/Dockerfile
           push: true
           tags: mem0ai/openmemory:latest
