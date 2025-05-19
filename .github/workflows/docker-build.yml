@@ -40,11 +40,20 @@ jobs:
           ls -la openmemory/api/
           cat openmemory/api/.env || echo "⚠️ .env 文件未正确创建！"
 
-      - name: Run Makefile Build
+      - name: Build API & UI Docker Images
         working-directory: openmemory
         run: make build  # 构建 MCP 服务器和 UI
         
 
-      - name: Push Docker Image to Docker Hub
+      - name: Build Combined OpenMemory Image
+        working-directory: openmemory
+        run: docker build -t mem0ai/openmemory:latest -f Dockerfile .
+
+      - name: Push Separate API & UI Images
+        run: |
+          docker push mem0ai/openmemory-mcp:latest
+          docker push mem0ai/openmemory-ui:latest
+
+      - name: Push Combined OpenMemory Image
         run: docker push mem0ai/openmemory:latest
 
