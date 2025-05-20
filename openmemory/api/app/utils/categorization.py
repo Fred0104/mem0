@@ -26,7 +26,7 @@ def get_categories_for_memory(memory: str) -> List[str]:
     """Get categories for a memory."""
     try:
         response = openai_client.responses.parse(
-            model="gpt-4o-mini",
+            model="hunyuan-turbos-latest",
             instructions=MEMORY_CATEGORIZATION_PROMPT,
             input=memory,
             temperature=0,
