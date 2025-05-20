@@ -23,8 +23,8 @@ load_dotenv()
 mcp = FastMCP("mem0-mcp-server")
 
 # Check if OpenAI API key is set
-if not os.getenv("OPENAI_API_KEY"):
-    raise Exception("OPENAI_API_KEY is not set in .env file")
+if not os.getenv("TENCENT_HUNYUAN_API_KEY"):
+    raise Exception("TENCENT_HUNYUAN_API_KEY is not set in .env file")
 
 memory_client = get_memory_client()
 
