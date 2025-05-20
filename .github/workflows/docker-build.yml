@@ -31,34 +31,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Setup Environment Files
-        working-directory: openmemory
-        run: make env  # 复制 .env.example 到 .env
-
-      - name: Verify .env File Exists
-        run: |
-          ls -la openmemory/api/
-          cat openmemory/api/.env || echo "⚠️ .env 文件未正确创建！"
-
       - name: Build API & UI Docker Images
         working-directory: openmemory
         run: |
           make build  # 构建 MCP 服务器和 UI
         
-
-      - name: Build Combined OpenMemory Image
-        working-directory: openmemory
-        run: docker build --no-cache -t openmemory:latest -f Dockerfile .
-      - name: Tag Images for Push
+      - name: Push Separate API & UI Images
         run: |
           docker tag openmemory-mcp:latest ${{ secrets.DOCKER_USERNAME }}/openmemory-mcp:latest
           docker tag openmemory-ui:latest ${{ secrets.DOCKER_USERNAME }}/openmemory-ui:latest
-          docker tag openmemory:latest ${{ secrets.DOCKER_USERNAME }}/openmemory:latest
-      - name: Push Separate API & UI Images
-        run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/openmemory-mcp:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/openmemory-ui:latest
 
-      - name: Push Combined OpenMemory Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/openmemory:latest
 
