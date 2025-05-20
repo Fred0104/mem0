@@ -1,6 +1,6 @@
 import json
 import logging
-
+import os
 from openai import OpenAI
 from typing import List
 from dotenv import load_dotenv
