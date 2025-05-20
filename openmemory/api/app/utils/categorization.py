@@ -1,9 +1,12 @@
 import json
 import logging
-import os
 
 from openai import OpenAI
 from typing import List
+from dotenv import load_dotenv
+from pydantic import BaseModel
+from tenacity import retry, stop_after_attempt, wait_exponential
+from app.utils.prompts import MEMORY_CATEGORIZATION_PROMPT
 
 load_dotenv()
 
